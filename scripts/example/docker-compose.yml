@@ -1,0 +1,22 @@
+services:
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/Prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - prom
+  avalanche:
+    container_name: avalanche
+    image: quay.io/prometheuscommunity/avalanche:main
+    ports:
+      - "9001:9001"
+    networks:
+      prom:
+        aliases:
+          - avalanche
+networks:
+  prom:
+    name: prom
